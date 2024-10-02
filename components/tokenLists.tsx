@@ -5,7 +5,7 @@ import { zeroAddress } from "viem";
 import { useReadContract } from "wagmi";
 
 const TokenLists = () => {
-  const { data, error } = useReadContract({
+  let { data, error } = useReadContract({
     abi: FactoryAbi,
     address: FACTORY_ADDRESS,
     functionName: "getTokenInfos",
@@ -16,7 +16,7 @@ const TokenLists = () => {
   console.log("Data", data);
 
   if (data) {
-    (data as any[]).filter((token: any) => token.token != zeroAddress );
+    data = (data as any[]).filter((token: any) => token.token != zeroAddress );
   }
 
   return (
@@ -24,6 +24,7 @@ const TokenLists = () => {
       <h1>Token Lists</h1>
       {data?.map((token: any) => (
         <div key={token.token}>
+          <div>{token.token}</div>
           <div>{token.name}</div>
           <div>{token.symbol}</div>
           <div>{token.image}</div>
