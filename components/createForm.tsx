@@ -6,9 +6,11 @@ import {
   useWaitForTransactionReceipt,
 } from "wagmi";
 import { useConnectModal } from "@rainbow-me/rainbowkit";
-import FactoryAbi from "@abis/Factory.json"
+import FactoryAbi from "@abis/Factory.json";
 import { FACTORY_ADDRESS, storage } from "@config/index";
-import { hashMessage, parseEther } from "viem";
+import { hashMessage, parseEther, parseEventLogs } from "viem";
+import Modal from "./modal";
+import Link from "next/link";
 
 const CreateForm = () => {
   const { isConnected } = useAccount();
@@ -16,10 +18,10 @@ const CreateForm = () => {
   const [name, setName] = useState("");
   const [symbol, setSymbol] = useState("");
   const [description, setDescription] = useState("");
+  const [targetLiquidity, setTargetLiquidity] = useState<string>("0");
   const [image, setImage] = useState<File | undefined>();
   const { writeContract, data: txHash, error } = useWriteContract();
-  console.log("Error", error);
-  const { data: receipt } = useWaitForTransactionReceipt({
+  const { data: receipt, isLoading } = useWaitForTransactionReceipt({
     hash: txHash,
   });
 
@@ -39,17 +41,45 @@ const CreateForm = () => {
       abi: FactoryAbi,
       address: FACTORY_ADDRESS,
       functionName: "createToken",
-      value: parseEther("1"),
-      args: [name, symbol, imageIpfsUrl, description, 86400, 0, hashMessage((new Date()).toISOString())],
-    })
+      value: 1n,
+      args: [
+        name,
+        symbol,
+        imageIpfsUrl,
+        description,
+        86400,
+        parseEther(targetLiquidity),
+        hashMessage(new Date().toISOString()),
+      ],
+    });
   };
+
+  if (receipt) {
+    const logs = parseEventLogs({
+      abi: FactoryAbi,
+      logs: receipt.logs,
+    });
+
+    const tokenAddress = logs.find(
+      // eslint-disable-next-line
+      (log: any) => log.eventName === "CreateToken",
+      // eslint-disable-next-line
+      // @ts-ignore
+    )?.args?.token;
+
+    return (
+      <div className="lg:col-span-7 w-1/2">
+        New token created with address: <Link href={`/token/${tokenAddress}`}>{tokenAddress}</Link>
+      </div>
+    )
+  }
 
   return (
     <div className="lg:col-span-7 w-1/2">
       <div className="space-y-6">
         {/* Name Input */}
         <div>
-          <label className="block text-lg font-semibold mb-2" htmlFor="name">
+          <label className="block text-lg font-semibold" htmlFor="name">
             Name <span className="text-red-500">*</span>
           </label>
           <input
@@ -64,7 +94,7 @@ const CreateForm = () => {
 
         {/* Symbol Input */}
         <div>
-          <label className="block text-lg font-semibold mb-2" htmlFor="symbol">
+          <label className="block text-lg font-semibold" htmlFor="symbol">
             Symbol <span className="text-red-500">*</span>
           </label>
           <input
@@ -77,12 +107,24 @@ const CreateForm = () => {
           />
         </div>
 
+        {/* Target Liquidity Input */}
+        <div>
+          <label className="block text-lg font-semibold" htmlFor="symbol">
+            Target Liquidity (in VIC) <span className="text-red-500">*</span>
+          </label>
+          <input
+            type="number"
+            id="targetLiquidity"
+            value={targetLiquidity}
+            onChange={(e) => setTargetLiquidity(e.target.value)}
+            className="w-full px-4 py-2 bg-[#242424] text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
+            placeholder="Enter NFT Symbol"
+          />
+        </div>
+
         {/* Description Input */}
         <div>
-          <label
-            className="block text-lg font-semibold mb-2"
-            htmlFor="description"
-          >
+          <label className="block text-lg font-semibold" htmlFor="description">
             Description
           </label>
           <textarea
@@ -124,6 +166,8 @@ const CreateForm = () => {
           </div>
         </div>
 
+        {error && <p className="text-red-500 text-sm mb-4">{error.name}</p>}
+
         {/* Submit Button */}
         <div>
           <button
@@ -134,6 +178,13 @@ const CreateForm = () => {
           </button>
         </div>
       </div>
+
+      {isLoading && (
+        <Modal visible={true} onClose={() => {}}>
+          <div className="text-center">Wait for transaction confirmation</div>
+        </Modal>
+      )}
+
     </div>
   );
 };

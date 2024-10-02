@@ -6,6 +6,7 @@ import { useReadContract } from "wagmi";
 
 interface Token {
   token: Address,
+  isPoolCreated: boolean,
   name: string,
   symbol: string,
   image: string,
