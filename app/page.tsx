@@ -5,7 +5,7 @@ export default function Home() {
   return (
     <div className="text-center">
       <div>
-        <Link href="/create">Create Token</Link>
+        <Link href="/create">[Create Token]</Link>
       </div>
       <div>
         <button className="">How it works</button>
