@@ -4,7 +4,7 @@ import Link from "next/link";
 export default function Home() {
   return (
     <div className="text-center">
-      <div>
+      <div className="font-bold text-xl hover:text-blue-600">
         <Link href="/create">[Create Token]</Link>
       </div>
       <div>

@@ -1,16 +1,18 @@
 "use client";
 import FactoryAbi from "@abis/Factory.json";
-import { FACTORY_ADDRESS } from "@config/index";
+import { FACTORY_ADDRESS, storage } from "@config/index";
+import Link from "next/link";
 import { Address, zeroAddress } from "viem";
 import { useReadContract } from "wagmi";
+import TokenCard from "./tokenCard";
 
 interface Token {
-  token: Address,
-  isPoolCreated: boolean,
-  name: string,
-  symbol: string,
-  image: string,
-  description: string,
+  token: Address;
+  isPoolCreated: boolean;
+  name: string;
+  symbol: string;
+  image: string;
+  description: string;
 }
 
 const TokenLists = () => {
@@ -21,24 +23,32 @@ const TokenLists = () => {
     args: [10],
   });
 
-  console.log("Data", data);
-
   if (data) {
-    data = (data as Token[]).filter((token: Token) => token.token != zeroAddress );
+    data = (data as Token[]).filter(
+      (token: Token) => token.token != zeroAddress,
+    );
   }
 
   return (
     <div>
-      <h1>Token Lists</h1>
-      {(data as Token[])?.map((token: Token) => (
-        <div key={token.token}>
-          <div>{token.token}</div>
-          <div>{token.name}</div>
-          <div>{token.symbol}</div>
-          <div>{token.image}</div>
-          <div>{token.description}</div>
+      <div className="container mx-auto">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mt-10">
+          {(data as Token[])?.map((collection, index) => (
+            <Link
+              href={`/token/${collection.token}`}
+              key={index}
+              passHref
+            >
+              <TokenCard
+                name={collection.name}
+                symbol={collection.symbol}
+                avatar={storage.resolveScheme(collection.image)}
+                desciption={collection.description}
+              />
+            </Link>
+          ))}
         </div>
-      ))}
+      </div>
     </div>
   );
 };
