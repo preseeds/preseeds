@@ -20,6 +20,7 @@ const CreateForm = () => {
   const [description, setDescription] = useState("");
   const [targetLiquidity, setTargetLiquidity] = useState<string>("0");
   const [image, setImage] = useState<File | undefined>();
+  const [isUploading, setIsUploading] = useState(false);
   const { writeContract, data: txHash, error } = useWriteContract();
   const { data: receipt, isLoading } = useWaitForTransactionReceipt({
     hash: txHash,
@@ -31,6 +32,7 @@ const CreateForm = () => {
       return;
     }
 
+    setIsUploading(true);
     const imageIpfsUrl = await storage.upload(image as File, {
       uploadWithoutDirectory: true,
     });
@@ -67,9 +69,12 @@ const CreateForm = () => {
 
     return (
       <div className="lg:col-span-7 w-1/2">
-        New token created with address: <Link href={`/token/${tokenAddress}`} className="text-red-300">{tokenAddress}</Link>
+        New token created with address:{" "}
+        <Link href={`/token/${tokenAddress}`} className="text-red-300">
+          {tokenAddress}
+        </Link>
       </div>
-    )
+    );
   }
 
   return (
@@ -171,8 +176,13 @@ const CreateForm = () => {
           <button
             className="py-3 px-6 bg-teal-500 text-white font-semibold hover:bg-teal-600 focus:outline-none focus:ring-2 focus:ring-teal-400 transition-all duration-300 w-full mb-10 bg-gradient-to-r from-blue-600 via-green-500 to-indigo-400 rounded-lg"
             onClick={onCreateToken}
+            disabled={isUploading}
           >
-            {isConnected ? "Create Token" : "Connect Wallet"}
+            {isConnected
+              ? isUploading
+                ? "Uploading..."
+                : "Create Token"
+              : "Connect Wallet"}
           </button>
         </div>
       </div>
@@ -182,7 +192,6 @@ const CreateForm = () => {
           <div className="text-center">Wait for transaction confirmation</div>
         </Modal>
       )}
-
     </div>
   );
 };
