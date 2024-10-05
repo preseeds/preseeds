@@ -1,11 +1,12 @@
 "use client";
 
 import FactoryAbi from "@abis/Factory.json";
-import { FACTORY_ADDRESS, storage } from "@config/index";
+import { FACTORY_ADDRESS, storage, network } from "@config/index";
 import Link from "next/link";
 import { Address, zeroAddress } from "viem";
 import { useReadContract } from "wagmi";
 import TokenCard from "./tokenCard";
+import { getDefaultConfig } from "@rainbow-me/rainbowkit";
 
 interface Token {
   token: Address;
@@ -21,6 +22,12 @@ interface Token {
 const TokenLists = () => {
   // Fetch data from the contract
   const { data } = useReadContract({
+    config: getDefaultConfig({
+      appName: "Preseeds Trade",
+      projectId: "YOUR_PROJECT_ID",
+      chains: [network],
+      ssr: true, // If your dApp uses server side rendering (SSR)
+    }),
     abi: FactoryAbi,
     address: FACTORY_ADDRESS,
     functionName: "getTokenInfos",
@@ -31,8 +38,6 @@ const TokenLists = () => {
   const filteredData = (data as Token[])?.filter(
     (token: Token) => token.token != zeroAddress,
   );
-
-  console.log("Data", filteredData);
 
   return (
     <div className="container mx-auto my-10">

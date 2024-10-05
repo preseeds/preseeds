@@ -25,8 +25,6 @@ const CreateForm = () => {
     hash: txHash,
   });
 
-  console.log("receipt", receipt);
-
   const onCreateToken = async () => {
     if (!isConnected && openConnectModal) {
       openConnectModal();
@@ -69,7 +67,7 @@ const CreateForm = () => {
 
     return (
       <div className="lg:col-span-7 w-1/2">
-        New token created with address: <Link href={`/token/${tokenAddress}`}>{tokenAddress}</Link>
+        New token created with address: <Link href={`/token/${tokenAddress}`} className="text-red-300">{tokenAddress}</Link>
       </div>
     )
   }
@@ -87,8 +85,8 @@ const CreateForm = () => {
             id="name"
             value={name}
             onChange={(e) => setName(e.target.value)}
-            className="w-full px-4 py-2 bg-[#242424] text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
-            placeholder="Enter NFT Name"
+            className="w-full px-4 py-2 bg-[#242424] rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
+            placeholder="Enter Token Name"
           />
         </div>
 
@@ -102,8 +100,8 @@ const CreateForm = () => {
             id="symbol"
             value={symbol}
             onChange={(e) => setSymbol(e.target.value)}
-            className="w-full px-4 py-2 bg-[#242424] text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
-            placeholder="Enter NFT Symbol"
+            className="w-full px-4 py-2 bg-[#242424] rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
+            placeholder="Enter Token Symbol"
           />
         </div>
 
@@ -117,7 +115,7 @@ const CreateForm = () => {
             id="targetLiquidity"
             value={targetLiquidity}
             onChange={(e) => setTargetLiquidity(e.target.value)}
-            className="w-full px-4 py-2 bg-[#242424] text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="w-full px-4 py-2 bg-[#242424] rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
             placeholder="Enter NFT Symbol"
           />
         </div>
@@ -132,7 +130,7 @@ const CreateForm = () => {
             value={description}
             rows={5}
             onChange={(e) => setDescription(e.target.value)}
-            className="w-full px-4 py-2 bg-[#242424] text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="w-full px-4 py-2 bg-[#242424] rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
             placeholder="Enter NFT Description"
           ></textarea>
         </div>
@@ -142,10 +140,10 @@ const CreateForm = () => {
           <label className="block text-lg font-semibold mb-2" htmlFor="art">
             Image <span className="text-red-500">*</span>
           </label>
-          <div className="flex flex-col items-center justify-center w-full h-44 bg-[#242424] border-2 border-dashed border-gray-500">
+          <div className="flex flex-col items-center justify-center w-full h-44 bg-[#242424] rounded-lg border-2 border-dashed border-gray-500">
             <label
               htmlFor="image"
-              className="px-6 py-3 bg-[#2E2C2C] text-white cursor-pointer hover:bg-[#3A3A3A] focus:outline-none"
+              className="px-6 py-3 bg-[#2E2C2C] text-white cursor-pointer hover:bg-[#3A3A3A] focus:outline-none rounded-lg"
             >
               Upload File
             </label>
@@ -171,7 +169,7 @@ const CreateForm = () => {
         {/* Submit Button */}
         <div>
           <button
-            className="py-3 px-6 bg-teal-500 text-white font-semibold hover:bg-teal-600 focus:outline-none focus:ring-2 focus:ring-teal-400 transition-all duration-300 w-full mb-10"
+            className="py-3 px-6 bg-teal-500 text-white font-semibold hover:bg-teal-600 focus:outline-none focus:ring-2 focus:ring-teal-400 transition-all duration-300 w-full mb-10 bg-gradient-to-r from-blue-600 via-green-500 to-indigo-400 rounded-lg"
             onClick={onCreateToken}
           >
             {isConnected ? "Create Token" : "Connect Wallet"}

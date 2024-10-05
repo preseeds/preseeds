@@ -1,5 +1,7 @@
 "use client";
+
 import { ConnectButton } from "@rainbow-me/rainbowkit";
+import Image from "next/image";
 import Link from "next/link";
 import React, { ReactNode } from "react";
 
@@ -13,16 +15,14 @@ const Nav: React.FC<NavProps> = ({ children }) => {
       {/* Header */}
       <div className="py-4 px-6 flex flex-col md:flex-row justify-between items-center bg-opacity-90 backdrop-blur-md shadow-lg">
         {/* Left Section: Logo */}
-        <div className="flex items-center space-x-4 mr-3 mb-4 md:mb-0">
-          <div className="text-xl sm:text-3xl font-extrabold tracking-wide text-transparent text-white">
-            <Link
-              href="/"
-              className="hover:scale-110 transform transition-all duration-300"
-            >
+        <Link href="/">
+          <div className="flex items-center space-x-4 mr-3 mb-4 md:mb-0 cursor-pointer">
+            <Image width={40} height={40} src="/sticker.gif" alt="Sticker" />
+            <div className="text-xl sm:text-3xl font-extrabold tracking-wide text-transparent text-white bg-gradient-to-r from-blue-600 via-green-500 to-indigo-400">
               PreSeeds
-            </Link>
+            </div>
           </div>
-        </div>
+        </Link>
 
         {/* Connect Button */}
         <div className="flex items-center mb-4 md:mb-0">
@@ -42,6 +42,17 @@ const Nav: React.FC<NavProps> = ({ children }) => {
 
       {/* Main Content */}
       <main className="flex-1">{children}</main>
+
+      {/* Footer */}
+      <footer className="bg-gray-800 text-center text-white py-4">
+        <p>
+          All source code is public, and everyone can contribute features to create the next generation of Meme capital-raising platforms:{" "}
+          <Link href="https://github.com/preseeds" target="_blank" rel="noopener noreferrer">
+            <span className="text-blue-400 hover:text-blue-600 underline">Github</span>
+          </Link>
+          .
+        </p>
+      </footer>
     </div>
   );
 };

@@ -9,13 +9,13 @@ import { AppProgressBar as ProgressBar } from "next-nprogress-bar";
 import { WagmiProvider } from "wagmi";
 import { QueryClientProvider, QueryClient } from "@tanstack/react-query";
 import { structuralSharing } from "@wagmi/core/query";
-import { mainnet, testnet } from "@config/index";
+import { network } from "@config/index";
 import Nav from "@components/nav";
 
 const config = getDefaultConfig({
   appName: "Preseeds Trade",
   projectId: "YOUR_PROJECT_ID",
-  chains: [mainnet, testnet],
+  chains: [network],
   ssr: true, // If your dApp uses server side rendering (SSR)
 });
 
@@ -34,7 +34,6 @@ const Providers = ({ children }: { children: React.ReactNode }) => {
         <RainbowKitProvider
           theme={darkTheme({
             accentColorForeground: "white",
-            borderRadius: "none",
             // fontStack: "system",
             overlayBlur: "large",
           })}

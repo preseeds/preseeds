@@ -1,12 +1,11 @@
 "use client";
 import TokenAbi from "@abis/Token.json";
-import { storage } from "@config/index";
+import { network, storage } from "@config/index";
 import Image from "next/image";
 import { Address, formatEther } from "viem";
-import {
-  useReadContract,
-} from "wagmi";
+import { useReadContract } from "wagmi";
 import { FaTwitter } from "react-icons/fa";
+import { getDefaultConfig } from "@rainbow-me/rainbowkit";
 
 interface Props {
   tokenAddress: Address;
@@ -27,6 +26,12 @@ type TokenInfo = [
 
 const TokenInfo: React.FC<Props> = ({ tokenAddress }) => {
   const { data } = useReadContract({
+    config: getDefaultConfig({
+      appName: "Preseeds Trade",
+      projectId: "YOUR_PROJECT_ID",
+      chains: [network],
+      ssr: true, // If your dApp uses server side rendering (SSR)
+    }),
     address: tokenAddress,
     abi: TokenAbi,
     functionName: "getTokenInfo",
@@ -48,7 +53,10 @@ const TokenInfo: React.FC<Props> = ({ tokenAddress }) => {
   // Twitter share message
   const twitterShareMessage = `${tokenData[0]} is raising at pre seeds round, all the funds is protected by Preseeds protocol. \n\nSend VIC to: ${tokenAddress} or via Coin98 Magic Link: ${requestUrl} to buy.\n\n Token ${tokenData[1]} will be minted directly to your wallet.`;
 
-  // Condition for showing "Create Pool" button
+  // Pool URL
+  const poolUrl = `https://www.baryon.network/swap?chain=tomo&base=VIC&pair=${tokenAddress}`;
+
+  // Condition for showing "Create Pool" button or the "Go to Pool" link
   const unlockDateReached = Number(tokenData[6]) * 1000 <= Date.now();
   const isPoolNotCreated = !tokenData[9];
 
@@ -85,7 +93,7 @@ const TokenInfo: React.FC<Props> = ({ tokenAddress }) => {
                 </a>
               </div>
               <div className="flex space-x-4">
-                {unlockDateReached && isPoolNotCreated && (
+                {unlockDateReached && isPoolNotCreated ? (
                   <button
                     onClick={() => {
                       // Replace with the actual logic for creating the pool
@@ -95,6 +103,17 @@ const TokenInfo: React.FC<Props> = ({ tokenAddress }) => {
                   >
                     Create Pool
                   </button>
+                ) : (
+                  tokenData[9] && (
+                    <a
+                      href={poolUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center px-4 py-2 bg-blue-500 text-white text-sm font-semibold rounded-lg hover:bg-blue-600 transition"
+                    >
+                      The pool has been created, Trade on Baryon
+                    </a>
+                  )
                 )}
               </div>
             </div>
