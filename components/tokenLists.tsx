@@ -1,4 +1,5 @@
 "use client";
+
 import FactoryAbi from "@abis/Factory.json";
 import { FACTORY_ADDRESS, storage } from "@config/index";
 import Link from "next/link";
@@ -12,43 +13,48 @@ interface Token {
   name: string;
   symbol: string;
   image: string;
-  description: string;
+  raisedAmount: bigint;
+  targetLiquidity: bigint;
+  unlockDate: bigint;
 }
 
 const TokenLists = () => {
-  let { data } = useReadContract({
+  // Fetch data from the contract
+  const { data } = useReadContract({
     abi: FactoryAbi,
     address: FACTORY_ADDRESS,
     functionName: "getTokenInfos",
-    args: [10],
+    args: [10], // Replace with the appropriate number if needed
   });
 
-  if (data) {
-    data = (data as Token[]).filter(
-      (token: Token) => token.token != zeroAddress,
-    );
-  }
+  // Filter out tokens with invalid addresses
+  const filteredData = (data as Token[])?.filter(
+    (token: Token) => token.token != zeroAddress,
+  );
+
+  console.log("Data", filteredData);
 
   return (
-    <div>
-      <div className="container mx-auto">
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mt-10">
-          {(data as Token[])?.map((collection, index) => (
-            <Link
-              href={`/token/${collection.token}`}
-              key={index}
-              passHref
-            >
+    <div className="container mx-auto my-10">
+      {filteredData && filteredData.length > 0 ? (
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          {filteredData.map((token, index) => (
+            <Link href={`/token/${token.token}`} key={index} passHref>
               <TokenCard
-                name={collection.name}
-                symbol={collection.symbol}
-                avatar={storage.resolveScheme(collection.image)}
-                desciption={collection.description}
+                name={token.name}
+                symbol={token.symbol}
+                avatar={storage.resolveScheme(token.image)}
+                raisedAmount={token.raisedAmount}
+                targetLiquidity={token.targetLiquidity}
               />
             </Link>
           ))}
         </div>
-      </div>
+      ) : (
+        <div className="text-center text-white mt-10">
+          No tokens are currently raising funds, Create your one now!
+        </div>
+      )}
     </div>
   );
 };

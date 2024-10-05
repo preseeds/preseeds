@@ -1,3 +1,4 @@
+"use client";
 import { Fragment } from "react";
 import {
   Dialog,
@@ -65,7 +66,7 @@ const Modal = ({
         >
           <DialogPanel
             className={twMerge(
-              `relative z-10 max-w-[32rem] w-full m-auto bg-theme-on-surface-1 border-theme-stroke shadow-depth-1 md:p-6 ${
+              `relative z-10 max-w-[48rem] w-full m-auto bg-theme-on-surface-1 border-theme-stroke shadow-depth-1 md:p-6 ${
                 classWrap || ""
               }`
             )}
