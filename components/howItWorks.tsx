@@ -53,7 +53,7 @@ const HowItWorks: React.FC = () => {
               step 3: <span className="text-white">the smart contract automatically mints tokens directly to your wallet address</span>
             </p>
             <p className="text-yellow-400">
-              step 4: <span className="text-white">when the token reaches its target liquidity, all <span className="text-green-400 font-semibold">VIC</span> sent to the contract will be deposited into the <span className="text-blue-400 font-semibold">Baryon protocol</span></span>
+              step 4: <span className="text-white">when the token reaches its target liquidity or the raising period ends, all <span className="text-green-400 font-semibold">VIC</span> sent to the contract will be deposited into the <span className="text-blue-400 font-semibold">Baryon protocol</span></span>
             </p>
             <p className="text-yellow-400">
               step 5: <span className="text-white">the liquidity token received from Baryon is then burned, ensuring trust and stability in the liquidity pool</span>
