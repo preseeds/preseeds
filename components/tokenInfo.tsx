@@ -127,25 +127,27 @@ const TokenInfo: React.FC<Props> = ({ tokenAddress }) => {
                 <span className="font-semibold">Unlock Date:</span>{" "}
                 {new Date(Number(tokenData[6]) * 1000).toLocaleDateString()}
               </div>
-              <div>
-                <span className="font-semibold">Is Pool Created:</span>{" "}
-                {tokenData[9] ? "True" : "False"}
-              </div>
             </div>
             {/* Funding Progress Section */}
-            <div className="mt-6">
-              <div className="font-semibold text-sm mb-2">Funding Progress</div>
-              <div className="w-full bg-gray-800 rounded-full h-4">
-                <div
-                  className="bg-green-500 h-4 rounded-full transition-all"
-                  style={{ width: `${progressPercentage}%` }}
-                />
+            {tokenData[9] ? (
+              <div className="font-semibold">Pool has been created</div>
+            ) : (
+              <div className="mt-6">
+                <div className="font-semibold text-sm mb-2">
+                  Funding Progress
+                </div>
+                <div className="w-full bg-gray-800 rounded-full h-4">
+                  <div
+                    className="bg-green-500 h-4 rounded-full transition-all"
+                    style={{ width: `${progressPercentage}%` }}
+                  />
+                </div>
+                <div className="text-sm text-gray-400 mt-2">
+                  {progressPercentage.toFixed(2)}% raised ({totalRaised} VIC out
+                  of {targetLiquidity} VIC)
+                </div>
               </div>
-              <div className="text-sm text-gray-400 mt-2">
-                {progressPercentage.toFixed(2)}% raised ({totalRaised} VIC out
-                of {targetLiquidity} VIC)
-              </div>
-            </div>
+            )}
           </div>
         </div>
       </div>

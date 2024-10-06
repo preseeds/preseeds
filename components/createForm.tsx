@@ -121,7 +121,7 @@ const CreateForm = () => {
             value={targetLiquidity}
             onChange={(e) => setTargetLiquidity(e.target.value)}
             className="w-full px-4 py-2 bg-[#242424] rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
-            placeholder="Enter NFT Symbol"
+            placeholder="Enter Token Symbol"
           />
         </div>
 
@@ -136,7 +136,7 @@ const CreateForm = () => {
             rows={5}
             onChange={(e) => setDescription(e.target.value)}
             className="w-full px-4 py-2 bg-[#242424] rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
-            placeholder="Enter NFT Description"
+            placeholder="Enter Token Description"
           ></textarea>
         </div>
 

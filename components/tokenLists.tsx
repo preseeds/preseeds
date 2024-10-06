@@ -47,6 +47,7 @@ const TokenLists = () => {
             <Link href={`/token/${token.token}`} key={index} passHref>
               <TokenCard
                 name={token.name}
+                isPoolCreated={token.isPoolCreated}
                 symbol={token.symbol}
                 avatar={storage.resolveScheme(token.image)}
                 raisedAmount={token.raisedAmount}
