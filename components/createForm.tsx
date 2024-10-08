@@ -41,7 +41,7 @@ const CreateForm = () => {
       abi: FactoryAbi,
       address: FACTORY_ADDRESS,
       functionName: "createToken",
-      value: 1n,
+      value: parseEther("3"),
       args: [
         name,
         symbol,

@@ -43,7 +43,7 @@ export const testnet = defineChain({
 
 export const network = mainnet
 
-export const FACTORY_ADDRESS = "0x0e120f4DD0a37c02dE425AFc2f34CDd1BfEe774e"
+export const FACTORY_ADDRESS = "0x11103e983745dB6D1802DC43766ad994Df3DB6ec"
 
 export const storage = new ThirdwebStorage({
   clientId: "9e1fedfacb0e12e8df882dc5df2e17ee",
