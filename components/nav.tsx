@@ -46,9 +46,9 @@ const Nav: React.FC<NavProps> = ({ children }) => {
       {/* Footer */}
       <footer className="bg-gray-800 text-center text-white py-4">
         <p>
-          All source code is public, and everyone can contribute features to create the next generation of Meme capital-raising platforms:{" "}
-          <Link href="https://github.com/preseeds" target="_blank" rel="noopener noreferrer">
-            <span className="text-blue-400 hover:text-blue-600 underline">Github</span>
+          Follow us on Twitter:{" "}
+          <Link href="https://x.com/preseeds_intern" target="_blank" rel="noopener noreferrer">
+            <span className="text-blue-400 hover:text-blue-600 underline">Preseeds Intern</span>
           </Link>
           .
         </p>
