@@ -48,7 +48,11 @@ const Nav: React.FC<NavProps> = ({ children }) => {
         <p>
           Follow us on Twitter:{" "}
           <Link href="https://x.com/preseeds_intern" target="_blank" rel="noopener noreferrer">
-            <span className="text-blue-400 hover:text-blue-600 underline">Preseeds Intern</span>
+            <span className="text-blue-400 hover:text-blue-600 underline">@preseeds_intern</span>
+          </Link>{" "}
+          - Join us on Telegram:{" "}
+          <Link href="https://t.me/launchonpreseeds" target="_blank" rel="noopener noreferrer">
+            <span className="text-blue-400 hover:text-blue-600 underline">@launchonpreseeds</span>
           </Link>
           .
         </p>
