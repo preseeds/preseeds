@@ -33,11 +33,18 @@ const BuyInfo: React.FC<BuyInfoProps> = ({ address }) => {
 
   return (
     <div className="bg-green-900 text-white p-4 rounded-lg shadow-md mb-6">
-      <p className="text-lg flex items-center">
+      <p className="text-lg flex items-center flex-wrap">
         To buy this token, send VIC to address{" "}
-        <span className="font-semibold ml-1">{address}</span>
-        <button onClick={openQrModal} aria-label="Show QR Code" className="ml-2">
-          <FaQrcode className="text-white hover:text-blue-500 transition" size={30} />
+        <span className="font-semibold ml-1 break-all">{address}</span>
+        <button
+          onClick={openQrModal}
+          aria-label="Show QR Code"
+          className="ml-2"
+        >
+          <FaQrcode
+            className="text-white hover:text-blue-500 transition"
+            size={30}
+          />
         </button>{" "}
         or via:{" "}
         <a
@@ -48,11 +55,14 @@ const BuyInfo: React.FC<BuyInfoProps> = ({ address }) => {
         >
           Coin98 Wallet Request Send
         </a>
-      </p>
-
+      </p>{" "}
       {/* QR Code Modal */}
       {isQrModalVisible && (
-        <Modal visible={isQrModalVisible} onClose={closeQrModal} showButtonClose>
+        <Modal
+          visible={isQrModalVisible}
+          onClose={closeQrModal}
+          showButtonClose
+        >
           <div className="bg-gray-900 text-white p-6 rounded-lg max-w-3xl mx-auto">
             <h2 className="text-2xl font-bold mb-4">Scan QR Code</h2>
             <div className="flex justify-center mb-4">

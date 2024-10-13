@@ -121,7 +121,7 @@ const TokenInfo: React.FC<Props> = ({ tokenAddress }) => {
             <p className="text-sm text-gray-300">{tokenData[3]}</p>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-4 mt-4">
               <div>
-                <span className="font-semibold">Creator:</span> {tokenData[8]}
+                <span className="break-all"><span className="font-semibold">Creator:</span> {tokenData[8]}</span>
               </div>
               <div>
                 <span className="font-semibold">Unlock Date:</span>{" "}

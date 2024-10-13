@@ -2,22 +2,28 @@
 import "@rainbow-me/rainbowkit/styles.css";
 import {
   darkTheme,
-  getDefaultConfig,
   RainbowKitProvider,
 } from "@rainbow-me/rainbowkit";
 import { AppProgressBar as ProgressBar } from "next-nprogress-bar";
-import { WagmiProvider } from "wagmi";
+import { createConfig, http, WagmiProvider } from "wagmi";
 import { QueryClientProvider, QueryClient } from "@tanstack/react-query";
 import { structuralSharing } from "@wagmi/core/query";
 import { network } from "@config/index";
 import Nav from "@components/nav";
 
-const config = getDefaultConfig({
-  appName: "Preseeds Trade",
-  projectId: "YOUR_PROJECT_ID",
+// const config = getDefaultConfig({
+//   appName: "Preseeds Trade",
+//   projectId: "YOUR_PROJECT_ID",
+//   chains: [network],
+//   ssr: true, // If your dApp uses server side rendering (SSR)
+// });
+
+const config = createConfig({
   chains: [network],
-  ssr: true, // If your dApp uses server side rendering (SSR)
-});
+  transports: {
+    [network.id]: http(),
+  },
+})
 
 const queryClient = new QueryClient({
   defaultOptions: {

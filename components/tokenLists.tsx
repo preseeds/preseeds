@@ -7,6 +7,7 @@ import { Address, zeroAddress } from "viem";
 import { useReadContract } from "wagmi";
 import TokenCard from "./tokenCard";
 import { getDefaultConfig } from "@rainbow-me/rainbowkit";
+import { useState } from "react";
 
 interface Token {
   token: Address;
@@ -20,6 +21,7 @@ interface Token {
 }
 
 const TokenLists = () => {
+  const [startAddress,] = useState<Address>("0x0000000000000000000000000000000000000001");
   // Fetch data from the contract
   const { data } = useReadContract({
     config: getDefaultConfig({
@@ -31,7 +33,7 @@ const TokenLists = () => {
     abi: FactoryAbi,
     address: FACTORY_ADDRESS,
     functionName: "getTokenInfos",
-    args: [10], // Replace with the appropriate number if needed
+    args: [startAddress, 10], // Replace with the appropriate number if needed
   });
 
   // Filter out tokens with invalid addresses

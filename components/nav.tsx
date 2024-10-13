@@ -1,6 +1,4 @@
 "use client";
-
-import { ConnectButton } from "@rainbow-me/rainbowkit";
 import Image from "next/image";
 import Link from "next/link";
 import React, { ReactNode } from "react";
@@ -23,25 +21,10 @@ const Nav: React.FC<NavProps> = ({ children }) => {
             </div>
           </div>
         </Link>
-
-        {/* Connect Button */}
-        <div className="flex items-center mb-4 md:mb-0">
-          <ConnectButton
-            chainStatus="icon"
-            showBalance={{
-              smallScreen: false,
-              largeScreen: true,
-            }}
-            accountStatus={{
-              smallScreen: "avatar",
-              largeScreen: "full",
-            }}
-          />
-        </div>
       </div>
 
       {/* Main Content */}
-      <main className="flex-1">{children}</main>
+      <main className="flex-1 mx-3">{children}</main>
 
       {/* Footer */}
       <footer className="bg-gray-800 text-center text-white py-4">
