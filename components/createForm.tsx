@@ -23,6 +23,8 @@ const CreateForm = () => {
   const [addressReceiver, setAddressReceiver] = useState<string>("");
   const [image, setImage] = useState<File | undefined>();
   const [isUploading, setIsUploading] = useState(false);
+  const [unlockTime, setUnlockTime] = useState<number>(86400); // Default value: 1 day in seconds
+  const [missingFields, setMissingFields] = useState<string[]>([]);
   const [txHash, setTxHash] = useState<Hex | undefined>();
   const [oneIdState, setOneIdState] = useState<OneID | undefined>();
   const { data: receipt, isLoading } = useWaitForTransactionReceipt({
@@ -30,6 +32,16 @@ const CreateForm = () => {
   });
 
   const onCreateToken = async () => {
+    const missFields = [];
+    if (!name) missFields.push("Name");
+    if (!symbol) missFields.push("Symbol");
+    if (Number(targetLiquidity) <= 0) missFields.push("Target Liquidity");
+    if (!feeReceiver) missFields.push("Fee Receiver");
+    if (!image) missFields.push("Image");
+    if (missFields.length) {
+      setMissingFields(missFields);
+      return;
+    }
     setIsUploading(true);
     const imageIpfsUrl = await storage.upload(image as File, {
       uploadWithoutDirectory: true,
@@ -45,7 +57,7 @@ const CreateForm = () => {
           symbol,
           imageIpfsUrl,
           description,
-          86400,
+          unlockTime,
           parseEther(targetLiquidity),
           addressReceiver ? addressReceiver : feeReceiver,
           hashMessage(new Date().toISOString()),
@@ -55,6 +67,12 @@ const CreateForm = () => {
 
     setTxHash(hash);
   };
+  
+  useEffect(() => {
+    if (missingFields.length) {
+      setMissingFields([]);
+    }
+  }, [name, symbol, description, targetLiquidity, feeReceiver, image]);
 
   useEffect(() => {
     const fetchOneIdLinkedWallet = async () => {
@@ -79,7 +97,7 @@ const CreateForm = () => {
         setAddressReceiver("Not Found");
       }
     };
-    if (!feeReceiver.includes("0x") && feeReceiver.includes(".")) {
+    if (feeReceiver.includes(".")) {
       fetchOneIdLinkedWallet();
     }
   }, [feeReceiver]);
@@ -115,6 +133,9 @@ const CreateForm = () => {
           <label className="block text-lg font-semibold" htmlFor="name">
             Name <span className="text-red-500">*</span>
           </label>
+          {missingFields.includes("Name") && (
+            <span className="text-red-500 text-sm">Name is required</span>
+          )}
           <input
             type="text"
             id="name"
@@ -130,6 +151,9 @@ const CreateForm = () => {
           <label className="block text-lg font-semibold" htmlFor="symbol">
             Symbol <span className="text-red-500">*</span>
           </label>
+          {missingFields.includes("Symbol") && (
+            <span className="text-red-500 text-sm">Symbol is required</span>
+          )}
           <input
             type="text"
             id="symbol"
@@ -146,8 +170,18 @@ const CreateForm = () => {
             className="block text-lg font-semibold"
             htmlFor="targetLiquidity"
           >
+            <span className="tooltip">
+              ⓘ{" "}
+              <span className="tooltiptext">
+                When the target liquidity is reached, the pool will be
+                automatically created.
+              </span>
+            </span>
             Target Liquidity (in VIC) <span className="text-red-500">*</span>
           </label>
+          {missingFields.includes("Target Liquidity") && (
+            <span className="text-red-500 text-sm">Target Liquidity must be greater than 0</span>
+          )}
           <input
             type="number"
             id="targetLiquidity"
@@ -158,12 +192,38 @@ const CreateForm = () => {
           />
         </div>
 
+        {/* Unlock Time Select */}
+        <div>
+          <label className="block text-lg font-semibold" htmlFor="unlockTime">
+            <span className="tooltip">
+              ⓘ{" "}
+              <span className="tooltiptext">
+                After the unlock, the pool will be created for any amount.
+              </span>
+            </span>
+            Unlock Time<span className="text-red-500">*</span>
+          </label>
+          <select
+            id="unlockTime"
+            value={unlockTime}
+            onChange={(e) => setUnlockTime(Number(e.target.value))}
+            className="w-full px-4 py-2 bg-[#242424] rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
+          >
+            <option value={86400}>1 Day</option> {/* 1 day in seconds */}
+            <option value={604800}>7 Days</option> {/* 7 days in seconds */}
+            <option value={2592000}>1 Month</option> {/* 30 days in seconds */}
+          </select>
+        </div>
+
         {/* Fee Receiver Input */}
         <div>
           <label className="block text-lg font-semibold" htmlFor="feeReceiver">
             Fee Receiver (Creator will receive 2% of raised VIC if pool is
             created) <span className="text-red-500">*</span>
           </label>
+          {missingFields.includes("Fee Receiver") && (
+            <span className="text-red-500 text-sm">Fee Receiver is required</span>
+          )}
           <input
             type="text"
             id="feeReceiver"
@@ -213,6 +273,9 @@ const CreateForm = () => {
           <label className="block text-lg font-semibold mb-2" htmlFor="image">
             Image <span className="text-red-500">*</span>
           </label>
+          {missingFields.includes("Fee Receiver") && (
+            <span className="text-red-500 text-sm">Fee Receiver is required</span>
+          )}
           <div className="flex flex-col items-center justify-center w-full h-44 bg-[#242424] rounded-lg border-2 border-dashed border-gray-500">
             <label
               htmlFor="image"
