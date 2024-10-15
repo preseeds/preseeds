@@ -95,13 +95,10 @@ const TokenInfo: React.FC<Props> = ({ tokenAddress }) => {
               <div className="flex space-x-4">
                 {unlockDateReached && isPoolNotCreated ? (
                   <button
-                    onClick={() => {
-                      // Replace with the actual logic for creating the pool
-                      console.log("Creating Pool...");
-                    }}
-                    className="inline-flex items-center px-4 py-2 bg-yellow-500 text-white text-sm font-semibold rounded-lg hover:bg-yellow-600 transition"
+                    disabled
+                    className="inline-flex items-center px-4 py-2 bg-yellow-600 text-white text-sm font-semibold rounded-lg"
                   >
-                    Create Pool
+                    Ready to create pool (send any amount of VIC to the address)
                   </button>
                 ) : (
                   tokenData[9] && (
@@ -125,7 +122,7 @@ const TokenInfo: React.FC<Props> = ({ tokenAddress }) => {
               </div>
               <div>
                 <span className="font-semibold">Unlock Date:</span>{" "}
-                {new Date(Number(tokenData[6]) * 1000).toLocaleDateString()}
+                {new Date(Number(tokenData[6]) * 1000).toString()}
               </div>
             </div>
             {/* Funding Progress Section */}
