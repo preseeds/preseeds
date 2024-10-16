@@ -28,7 +28,7 @@ const HowItWorks: React.FC = () => {
     <>
       <button
         onClick={openModal}
-        className="bg-blue-500 text-white py-2 px-4 hover:bg-blue-600 transition"
+        className="bg-[#e99591] text-gray-900 py-2 px-4 hover:bg-red-300 transition"
       >
         How it works
       </button>
