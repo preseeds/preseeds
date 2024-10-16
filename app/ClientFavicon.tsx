@@ -19,7 +19,7 @@ export default function ClientFavicon() {
             }
         };
 
-        const interval = setInterval(animateFavicon, 200);
+        const interval = setInterval(animateFavicon, 10);
 
         return () => clearInterval(interval);
     }, []);
