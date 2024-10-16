@@ -32,7 +32,7 @@ const BuyInfo: React.FC<BuyInfoProps> = ({ address }) => {
   };
 
   return (
-    <div className="bg-green-900 text-white p-4 rounded-lg shadow-md mb-6">
+    <div className="bg-green-900 text-white p-4 shadow-md mb-6">
       <p className="text-lg flex items-center flex-wrap">
         To buy this token, send VIC to address{" "}
         <span className="font-semibold ml-1 break-all">{address}</span>

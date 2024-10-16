@@ -81,13 +81,13 @@ const TokenLists = () => {
           <div className="mb-2">Page: {`${pageCount}`}</div>
           <div className="flex justify-between mb-8">
             <button
-              className="bg-gray-700 text-white px-4 py-2 rounded"
+              className="bg-gray-700 text-white px-4 py-2"
               onClick={handleBackToFirst}
             >
               Back to first
             </button>
             <button
-              className="bg-gray-700 text-white px-4 py-2 rounded"
+              className="bg-gray-700 text-white px-4 py-2"
               onClick={handleNext}
               disabled={filteredData.length < 9} // Disable if no more tokens
             >

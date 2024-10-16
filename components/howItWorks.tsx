@@ -28,13 +28,13 @@ const HowItWorks: React.FC = () => {
     <>
       <button
         onClick={openModal}
-        className="bg-blue-500 text-white py-2 px-4 rounded-lg hover:bg-blue-600 transition"
+        className="bg-[#e99591] text-gray-900 py-2 px-4 hover:bg-red-300 transition"
       >
         How it works
       </button>
 
       <Modal visible={isModalVisible} onClose={closeModal} showButtonClose>
-        <div className="bg-gray-900 text-white p-10 rounded-lg max-w-2xl mx-auto">
+        <div className="bg-gray-900 text-white p-10 max-w-2xl mx-auto">
           <h2 className="text-3xl font-bold mb-6 text-center text-blue-400">
             How it works
           </h2>

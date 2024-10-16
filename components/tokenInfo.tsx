@@ -50,21 +50,17 @@ const TokenInfo: React.FC<Props> = ({ tokenAddress }) => {
   const progressPercentage =
     targetLiquidity > 0 ? (totalRaised / targetLiquidity) * 100 : 0;
 
-  // Twitter share message
   const twitterShareMessage = `${tokenData[0]} is raising at pre seeds round, all the funds is protected by Preseeds protocol. \n\nSend VIC to: ${tokenAddress} or via Coin98 Magic Link: ${requestUrl} to buy.\n\n Token ${tokenData[1]} will be minted directly to your wallet.`;
 
-  // Pool URL
   const poolUrl = `https://www.baryon.network/swap?chain=tomo&base=VIC&pair=${tokenAddress}`;
 
-  // Condition for showing "Create Pool" button or the "Go to Pool" link
   const unlockDateReached = Number(tokenData[6]) * 1000 <= Date.now();
   const isPoolNotCreated = !tokenData[9];
 
   return (
     <div className="mx-auto container my-10">
-      <div className="bg-gray-900 p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow cursor-pointer">
+      <div className="bg-gray-900 p-6 shadow-md hover:shadow-lg transition-shadow cursor-pointer">
         <div className="flex flex-col md:flex-row md:items-center md:space-x-8">
-          {/* Image Section */}
           <div className="flex-shrink-0 w-full md:w-80 mb-6 md:mb-0">
             <Image
               src={storage.resolveScheme(tokenData[2])}
@@ -73,7 +69,6 @@ const TokenInfo: React.FC<Props> = ({ tokenAddress }) => {
               layout="responsive"
               quality={100}
               alt={`${tokenData[0]} image`}
-              className="rounded-lg"
             />
           </div>
           {/* Information Section */}
