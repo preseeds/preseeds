@@ -37,24 +37,21 @@ const TokenLists = () => {
     args: [],
   });
 
-
-  // Fetch data from the contract
   const { data, isLoading } = useReadContract({
     config: getDefaultConfig({
       appName: "Preseeds Trade",
       projectId: "YOUR_PROJECT_ID",
       chains: [network],
-      ssr: true, // If your dApp uses server side rendering (SSR)
+      ssr: true,
     }),
     abi: FactoryAbi,
     address: FACTORY_ADDRESS,
     functionName: "getTokenInfos",
-    args: [startAddress, 9], // Arguments for fetching token info
+    args: [startAddress, 9],
   });
 
   const [pageCount, setPageCount] = useState<number>(1);
 
-  // Filter out tokens with invalid addresses
   const filteredData = (data as Token[])?.filter(
     (token: Token) => token.token != zeroAddress
   );
@@ -89,7 +86,7 @@ const TokenLists = () => {
             <button
               className="bg-gray-700 text-white px-4 py-2"
               onClick={handleNext}
-              disabled={filteredData.length < 9} // Disable if no more tokens
+              disabled={filteredData.length < 9}
             >
               Next
             </button>
